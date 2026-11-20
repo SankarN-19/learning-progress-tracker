@@ -18,12 +18,10 @@ public interface AssignmentRepository extends JpaRepository<Assignment, Long> {
 
     long countByLearnerIdAndStatus(Long learnerId, AssignmentStatus status);
 
-    /** Used when a learner is deleted. */
     @Modifying
     @Query("delete from Assignment a where a.learner.id = :learnerId")
     int deleteByLearnerId(@Param("learnerId") Long learnerId);
 
-    /** Used when an activity is deleted. */
     @Modifying
     @Query("delete from Assignment a where a.activity.id = :activityId")
     int deleteByActivityId(@Param("activityId") Long activityId);

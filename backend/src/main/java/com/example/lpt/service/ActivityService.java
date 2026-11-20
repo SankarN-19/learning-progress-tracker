@@ -44,7 +44,6 @@ public class ActivityService {
         return ActivityResponse.from(activity);
     }
 
-    /** Removes the activity and every assignment of it (so no assignment is left pointing at nothing). */
     @Transactional
     public void delete(Long id) {
         Activity activity = activities.findById(id)

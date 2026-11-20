@@ -7,8 +7,6 @@ import Icon from '../components/Icons';
 import Logo from '../components/Logo';
 import SegmentedBar from '../components/SegmentedBar';
 
-/* ---------- the interactive moment: a miniature cohort board with sample data ---------- */
-
 const LABELS = ['Not Started', 'In Progress', 'Completed'];
 const KEYS = ['not-started', 'in-progress', 'completed'];
 const MARKS = ['○', '◐', '✓'];
@@ -269,7 +267,7 @@ export default function LandingPage() {
 
       <footer className="land-footer">
         <Logo />
-        <p className="muted">A capstone project. Every name and figure shown here is fictional sample data.</p>
+        <p className="muted">Developed by <b>Sankar </b> with love❤️</p>
       </footer>
     </div>
   );

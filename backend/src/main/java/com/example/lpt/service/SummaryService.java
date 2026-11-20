@@ -7,7 +7,6 @@ import com.example.lpt.repository.LearnerRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-/** Always calculated from saved data, never cached or hard-coded. */
 @Service
 public class SummaryService {
 

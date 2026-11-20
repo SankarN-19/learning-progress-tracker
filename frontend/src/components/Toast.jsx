@@ -12,7 +12,7 @@ export function ToastProvider({ children }) {
     (type, message) => {
       const id = ++nextId.current;
       setToasts((list) => [...list, { id, type, message }]);
-      setTimeout(() => remove(id), type === 'error' ? 7000 : 4000);
+      setTimeout(() => remove(id), type === 'error' ? 4000 : 2000);
     },
     [remove]
   );

@@ -50,7 +50,6 @@ public class AuthController {
         return ResponseEntity.noContent().build();
     }
 
-    /** Small addition to the brief's contract: lets the React route guards restore state after a refresh. */
     @GetMapping("/me")
     public MeResponse me(@AuthenticationPrincipal AccountPrincipal principal) {
         return new MeResponse(principal.email(), principal.role().name(), principal.mustChangePassword());
