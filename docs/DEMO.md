@@ -38,6 +38,8 @@ Sign in with the coordinator email and password from `.env`.
 
 ## 4. Create a candidate and hand over the credentials (1 min)
 
+(Optional) Use the **search box** above the Activities and Learners lists: type a name, email, cohort, title or topic and the list filters as you type; clear it with Esc.
+
 **Learners → Add candidate:** `Demo Candidate`, `demo.candidate@example.test`, `Frontend cohort`.
 - The one-time credentials panel appears with the **"Shown only once"** warning and the copy button.
 - Click **Copy credentials**, paste somewhere private (this is the "privately hand over" step), then **Done**.

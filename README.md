@@ -214,6 +214,9 @@ hashes never leave the server (DTOs do not contain them, and the test suite chec
 - `DELETE /activities/{id}` and `DELETE /learners/{id}` are not in the brief; they were added on request. Deleting an
   activity also removes its assignments; deleting a learner also removes their account, assignments and sessions (so the
   email can be reused). The UI always asks for confirmation first.
+- The Activities and Learners pages have a search box (name, email, cohort / title, topic). It filters the list already
+  loaded in the page, ignoring case and accents, and needs no extra API. For very large data it would move to a
+  server-side query with pagination.
 - Public self-registration is intentionally absent (candidate onboarding is FR-7, done by the coordinator).
 - The landing page, charts and layout are presentation only and add no business behaviour.
 

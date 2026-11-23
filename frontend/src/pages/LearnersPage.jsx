@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import useLoad from '../utils/useLoad';
 import { learnersApi } from '../api/services';
@@ -7,6 +7,8 @@ import PageSkeleton from '../components/Skeleton';
 import EmptyState from '../components/EmptyState';
 import Avatar from '../components/Avatar';
 import ConfirmDialog from '../components/ConfirmDialog';
+import SearchBox from '../components/SearchBox';
+import { filterBy, plural } from '../utils/search';
 import Icon from '../components/Icons';
 import Modal from '../components/Modal';
 import { TextField } from '../components/Fields';
@@ -106,6 +108,11 @@ export default function LearnersPage() {
   const [deleting, setDeleting] = useState(null); // null | learner
   const [deleteBusy, setDeleteBusy] = useState(false);
   const [deleteError, setDeleteError] = useState('');
+  const [query, setQuery] = useState('');
+  const visible = useMemo(
+    () => (data ? filterBy(data, query, (l) => [l.displayName, l.email, l.cohort]) : []),
+    [data, query]
+  );
 
   function closeDelete() {
     setDeleting(null);
@@ -162,6 +169,39 @@ export default function LearnersPage() {
       )}
 
       {data && data.length > 0 && (
+        <div className="list-toolbar">
+          <SearchBox
+            id="learner-search"
+            label="Search learners"
+            placeholder="Search by name, email or cohort"
+            value={query}
+            onChange={setQuery}
+          />
+          <p className="result-count" role="status">
+            {query.trim()
+              ? `Showing ${visible.length} of ${plural(data.length, 'learner')}`
+              : plural(data.length, 'learner')}
+          </p>
+        </div>
+      )}
+
+      {data && data.length > 0 && visible.length === 0 && (
+        <div className="panel">
+          <EmptyState
+            icon="search"
+            title="No learners match your search"
+            action={
+              <button type="button" className="btn btn-secondary" onClick={() => setQuery('')}>
+                Clear search
+              </button>
+            }
+          >
+            Try a different name, email or cohort.
+          </EmptyState>
+        </div>
+      )}
+
+      {data && visible.length > 0 && (
         <div className="panel panel-flush table-wrap">
           <table>
             <caption className="sr-only">Learners and their progress</caption>
@@ -176,7 +216,7 @@ export default function LearnersPage() {
               </tr>
             </thead>
             <tbody>
-              {data.map((l) => (
+              {visible.map((l) => (
                 <tr key={l.id}>
                   <td>
                     <div className="person-cell">

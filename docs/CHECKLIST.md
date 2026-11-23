@@ -69,6 +69,7 @@ Paths are relative to `backend/src/main/java/com/example/lpt/` (**BE**), `fronte
 - The login rate limiter is in memory (the brief allows this): it resets on restart and is per instance.
 - The cohort summary updates when the page is opened, refreshed, or the tab regains focus; there is no live push.
 - Invitation emails, CSV import/export, cloud deployment and monitoring are optional in the brief and not built.
+- Search on the Activities and Learners pages is client-side (tests: `frontend/src/__tests__/Search.test.jsx`); it is not in the brief.
 - Small additions beyond the brief's API (all listed in `README.md`): `GET /auth/me`, status `429`,
   extra count fields on learners and the summary, and `DELETE` for activities and learners (added on request).
   Tests: `ActivityApiTest.deleteRemovesTheActivityAndItsAssignments`, `LearnerApiTest.deleteRemovesLearnerAccountAssignmentsAndSessions`,

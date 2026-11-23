@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import useLoad from '../utils/useLoad';
 import { activitiesApi } from '../api/services';
 import { errorMessage, fieldErrors } from '../api/client';
@@ -6,6 +6,8 @@ import PageSkeleton from '../components/Skeleton';
 import EmptyState from '../components/EmptyState';
 import TopicChip from '../components/TopicChip';
 import ConfirmDialog from '../components/ConfirmDialog';
+import SearchBox from '../components/SearchBox';
+import { filterBy, plural } from '../utils/search';
 import Icon from '../components/Icons';
 import Modal from '../components/Modal';
 import { TextField } from '../components/Fields';
@@ -88,6 +90,11 @@ export default function ActivitiesPage() {
   const [deleting, setDeleting] = useState(null); // null | activity
   const [deleteBusy, setDeleteBusy] = useState(false);
   const [deleteError, setDeleteError] = useState('');
+  const [query, setQuery] = useState('');
+  const visible = useMemo(
+    () => (data ? filterBy(data, query, (a) => [a.title, a.topic]) : []),
+    [data, query]
+  );
 
   function onSaved() {
     setEditing(null);
@@ -149,6 +156,39 @@ export default function ActivitiesPage() {
       )}
 
       {data && data.length > 0 && (
+        <div className="list-toolbar">
+          <SearchBox
+            id="activity-search"
+            label="Search activities"
+            placeholder="Search by title or topic"
+            value={query}
+            onChange={setQuery}
+          />
+          <p className="result-count" role="status">
+            {query.trim()
+              ? `Showing ${visible.length} of ${plural(data.length, 'activity', 'activities')}`
+              : plural(data.length, 'activity', 'activities')}
+          </p>
+        </div>
+      )}
+
+      {data && data.length > 0 && visible.length === 0 && (
+        <div className="panel">
+          <EmptyState
+            icon="search"
+            title="No activities match your search"
+            action={
+              <button type="button" className="btn btn-secondary" onClick={() => setQuery('')}>
+                Clear search
+              </button>
+            }
+          >
+            Try a different title or topic.
+          </EmptyState>
+        </div>
+      )}
+
+      {data && visible.length > 0 && (
         <div className="panel panel-flush table-wrap">
           <table>
             <caption className="sr-only">Training activities</caption>
@@ -163,7 +203,7 @@ export default function ActivitiesPage() {
               </tr>
             </thead>
             <tbody>
-              {data.map((a) => (
+              {visible.map((a) => (
                 <tr key={a.id}>
                   <td className="cell-strong">{a.title}</td>
                   <td>
